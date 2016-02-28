@@ -1,0 +1,45 @@
+"""
+{
+	feed:{
+		data:[
+			{
+        		message: "",
+        		updated_time: "",
+        		id: ""
+      		}
+		],
+		paging:{
+			previous: ""
+			next: ""
+		},
+		id: ""
+	}, 
+	id=""
+}
+"""
+
+	
+"""
+#post = {message: "", updated-time: "", id: ""}
+msgID = post['id']
+msg = post['message']
+print("ID: " + msgID + "\tMsg: " + msg)
+"""
+
+
+177577782278470?fields=feed
+
+177577782278470/feed?limit=25&until=1456497613&__paging_token=enc_AdC1JwYFsfYfXfCJ7rqD40xvQZAEfQWdvXS1gOcrDdYVNfOL7yKCSW5Nk89Byguxch5ZCWHMZCMXYoAebH9jqJSI4qSZA5EcvOKQJPRDcZADrQlK2fAZDZD
+
+177577782278470_995094170526823?fields=likes.summary(true)
+
+"https://graph.facebook.com/v2.5/"+post_id+"?fields=likes.summary(true)"
+
+https://graph.facebook.com/v2.5/
+
+https://graph.facebook.com/v2.5/177577782278470/feed?access_token=CAACEdEose0cBAPcBlc2uU0VdNvQso3Bh67vNQ1WbJK5mecZCZBt3Ar9REOtbYauMOosdRUzL9cIXMId0XCXZA2gUTM9giw2OCVuYwZBIBfZCDt1laOOCnP0yqZBgTBNY9erHexf9uUkESIEG0A1vHTas3wZCRnxPOYBzCJVdeqGcQdZAZBFdnhQYZBQuJE2rZAkEEcEbZCptvH7VFgZDZD
+&limit=25&until=1456497613&__paging_token=enc_AdC1JwYFsfYfXfCJ7rqD40xvQZAEfQWdvXS1gOcrDdYVNfOL7yKCSW5Nk89Byguxch5ZCWHMZCMXYoAebH9jqJSI4qSZA5EcvOKQJPRDcZADrQlK2fAZDZD
+
+
+
+"https://graph.facebook.com/v2.5/"+POSTID+"?fields=likes.summary(true)&access_token="+access_token
