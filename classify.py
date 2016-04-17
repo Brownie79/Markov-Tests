@@ -37,7 +37,7 @@ class Document(object):
             self.postID = parsedNames[1]
             self.likes = parsedNames[2]
             self.tokenize()
-            print(self.label)
+            print ("doc start: " + self.label)
 
     def tokenize(self):
         self.tokens = ' '.join(open(self.filename).readlines()).split()
@@ -143,7 +143,6 @@ class NaiveBayes(object):
                         vocab_sod.add(token) 
             else:
                 priorPOP += 1
-                print("+1")
                 for token in doc.tokens:
                     Tct_pop += 1
                     if token in term_freq_pop.keys():
@@ -228,9 +227,9 @@ def evaluate(predictions, documents):
     z = 0 #true spam, classified ham
     
     for i in range(0,len(predictions)):
-        if(documents[i].label == 'spam' and predictions[i] == 'ham'):
+        if(documents[i].label == 'sod' and predictions[i] == 'pop'):
             z += 1
-        if(documents[i].label == 'ham' and predictions[i] == 'spam'):
+        if(documents[i].label == 'sod' and predictions[i] == 'pop'):
             y += 1        
     
     x = (len(documents) - (y+z)) / len(documents) 
