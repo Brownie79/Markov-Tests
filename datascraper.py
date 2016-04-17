@@ -3,7 +3,7 @@ import requests
 import json
 import facebook
 import requests
-from urllib.parse import parse_qs
+import json
 
 APP_ID = '460299580843062'
 APP_NAME = 'markov'
@@ -19,7 +19,7 @@ feed = graph.get_connections(group_id,'feed',limit='500')
 POST_LIMIT_GRAB = 200 
 LIKE_THRESHOLD = 10
 
-def log_post(postID):
+def log_post(postID,counter):
     likes_dict = graph.get_connections(postID,connection_name="likes",summary='true')
     likes = likes_dict['summary']['total_count']
 
@@ -34,8 +34,13 @@ def log_post(postID):
     newFile = open(filename, "w")
     message = graph.get_object(postID)['message']
     newFile.write(message)
-    
     newFile.close()
+    
+    #json for flask frontend
+    jsonDict = {'popular':pop, 'postid':postID, 'likes':likes}
+    jsonFileName = 'json/' + str(counter) + '.json'
+    with open(jsonFileName, 'w') as fp:
+        json.dump(jsonDict, fp)
 
 def main():
     counter = 0
@@ -44,7 +49,7 @@ def main():
         try:
             data = feed['data']
             for post in data:
-                log_post(post['id'])
+                log_post(post['id'],counter)
                 counter += 1
                 if(counter>POST_LIMIT_GRAB):
                     break
