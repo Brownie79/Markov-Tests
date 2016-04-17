@@ -26,9 +26,28 @@ div > p {
 }
 
 div.popular > p {
-    color: greenyellow;
+    color: #00ff4d;
 }
 
 #posts > div {
     padding: 20px;
+}
+
+.one {
+    display: block;
+}
+.two {
+    display: none;
+}
+
+*, p {
+    font-size: 24px !important;
+}
+span {
+    font-weight: bold;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
 }

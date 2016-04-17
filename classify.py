@@ -38,6 +38,8 @@ class Document(object):
             self.likes = parsedNames[2]
             self.tokenize()
 
+
+
     def tokenize(self):
         self.tokens = ' '.join(open(self.filename).readlines()).split()
 

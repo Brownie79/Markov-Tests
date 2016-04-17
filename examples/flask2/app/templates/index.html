@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="center">
+<div>
     <!--<p class='circle-image'
        style="background-image: url(https://graph.facebook.com/967207123292807/picture?type=large);
               margin-left: auto; margin-right: auto;">
@@ -13,10 +13,13 @@
         };
     </script>-->
 
-    <div id="posts"> </div>
+    <div id="posts" style="float: left; width: 50%;"> </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
     <script>
         function addPost(id, popular, likes, text) {
+            jQuery('#posts > div').hide();
             var a = document.createElement("div");
             addClass(a, id.toString());
             if(popular) {
@@ -55,14 +58,92 @@
                 var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
                 el.className=el.className.replace(reg, ' ')
               }
-}
+            }
         }
+
+
     </script>
 
     <script>
-        addPost(0, true, 100, "test popular element");
-        addPost(1, false, 0, "test unpopular element");
+
+        jQuery(function() {
+
+            jQuery('div').click(function() {
+                jQuery('.one').hide();
+                jQuery('.two').show();
+                jsoncall(18);
+            });
+
+            var a = {};
+
+            jsoncall(0);
+
+            function jsoncall(num) {
+                $.getJSON('static/css/'+num+'.json', function (data) {
+                    $.each(data, function(i, field){
+                        a[i] = field;
+                        console.log(i);
+                        console.log(field);
+                        $("posts").append(field + " ");
+                    });
+                    console.log(data);
+                    console.log(a);
+
+                    var q = false;
+                    if (a['popular'] === "TRUE") {
+                        q = true;
+                    }
+
+                    addPost(a['postid'], q, a['likes'], a['message']);
+                });
+            }
+
+                /*$.getJSON('static/css/0.json', function (data) {
+                    $.each(data, function(i, field){
+                        a[i] = field;
+                        console.log(i);
+                        console.log(field);
+                        $("posts").append(field + " ");
+                    });
+                    console.log(data);
+                    console.log(a);
+
+                    var q = false;
+                    if (a['popular'] === "TRUE") {
+                        q = true;
+                    }
+
+                    addPost(a['postid'], q, a['likes'], a['message']);
+                });
+
+            $.getJSON('static/css/18.json', function (data) {
+                    $.each(data, function(i, field){
+                        a[i] = field;
+                        console.log(i);
+                        console.log(field);
+                        $("posts").append(field + " ");
+                    });
+                    console.log(data);
+                    console.log(a);
+
+                    var q = false;
+                    if (a['popular'] === "TRUE") {
+                        q = true;
+                    }
+
+                    addPost(a['postid'], q, a['likes'], a['message']);
+                });*/
+        });
+
     </script>
+
+    <div style="float: right; width: 50%; font-size: 24px;">
+        <ul>
+            <li class="current" style="color: deepskyblue; list-style: none;"><h3>Odds of...</h3></li>
+            <li style="list-style: none;">Being a Hot Post (lots of likes, really quick): <span class="one">34.317%</span><span class="two">72.407%</span></li>
+            <li style="list-style: none;">Being a Successful Post (lots of likes, over a long time): <span class="one">11.289%</span><span class="two">80.211%</span></li>
+        </ul>
+    </div>
 
 </div>
 {% endblock %}
