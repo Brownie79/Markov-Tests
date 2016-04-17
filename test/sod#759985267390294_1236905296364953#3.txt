@@ -1,0 +1,1 @@
+Anyone do cool things with django? I want to make a Call of Duty Wiki kind of thing (yes yes I know there are ones already) lol

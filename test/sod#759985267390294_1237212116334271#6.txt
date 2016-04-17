@@ -1,0 +1,2 @@
+after trying every single SD card formatter, and after rm -rf'ing someone's entire computer, this SD card still survived.
+

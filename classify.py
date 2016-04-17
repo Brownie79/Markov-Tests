@@ -37,7 +37,6 @@ class Document(object):
             self.postID = parsedNames[1]
             self.likes = parsedNames[2]
             self.tokenize()
-            print ("doc start: " + self.label)
 
     def tokenize(self):
         self.tokens = ' '.join(open(self.filename).readlines()).split()
@@ -131,7 +130,6 @@ class NaiveBayes(object):
         Tct_pop = 0
         
         for doc in documents: 
-            print(doc.label)
             if 'sod' in doc.label:
                 priorSOD += 1
                 for token in doc.tokens:

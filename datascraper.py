@@ -17,7 +17,7 @@ feed = graph.get_connections(group_id,'feed',limit='500')
 
 #constants
 POST_LIMIT_GRAB = 200 
-LIKE_THRESHOLD = 55
+LIKE_THRESHOLD = 10
 
 def log_post(postID):
     likes_dict = graph.get_connections(postID,connection_name="likes",summary='true')
