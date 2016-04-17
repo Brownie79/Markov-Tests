@@ -30,10 +30,14 @@ class Document(object):
         else: # specify from file.
             self.filename = filename
             parsedNames = filename.split("#")
-            self.label = parsedNames[0] #pop or sod
+            if 'pop' in parsedNames[0]:
+                self.label = 'pop'
+            else:
+                self.label = 'sod'
             self.postID = parsedNames[1]
             self.likes = parsedNames[2]
             self.tokenize()
+            print(self.label)
 
     def tokenize(self):
         self.tokens = ' '.join(open(self.filename).readlines()).split()
@@ -109,7 +113,7 @@ class NaiveBayes(object):
           Nothing.
         """
         ###DONE
-        print
+
         #entire vocab in document set D
         vocab_sod = set()
         vocab_pop = set()
@@ -127,7 +131,8 @@ class NaiveBayes(object):
         Tct_pop = 0
         
         for doc in documents: 
-            if(doc.label == 'sod'):
+            print(doc.label)
+            if 'sod' in doc.label:
                 priorSOD += 1
                 for token in doc.tokens:
                     Tct_sod += 1
@@ -135,9 +140,10 @@ class NaiveBayes(object):
                         term_freq_sod[token] = term_freq_sod[token] + 1
                     else:
                         term_freq_sod[token] = 1
-                        vocab_spam.add(token) 
+                        vocab_sod.add(token) 
             else:
                 priorPOP += 1
+                print("+1")
                 for token in doc.tokens:
                     Tct_pop += 1
                     if token in term_freq_pop.keys():
@@ -155,6 +161,11 @@ class NaiveBayes(object):
         #tct' = term freq of all terms in class c + 1*(total terms)
         Tct_sod = Tct_sod + len(self.vocab) 
         Tct_pop = Tct_pop + len(self.vocab) 
+       
+        
+        print("PriorSod: " + str(priorSOD))
+        print("PriorPop: " + str(priorPOP))
+        print("LEN Docum: " + str(len(documents)))
         
         self.priorSOD = priorSOD / len(documents)
         self.priorPOP = priorPOP / len(documents)
@@ -182,8 +193,7 @@ class NaiveBayes(object):
         """
         predictions = []
         for doc in documents:
-            print("PriorSod: " + str(self.priorSOD))
-            print("PriorPop: " + str(self.priorPOP))
+
             score_sod = math.log(self.priorSOD)
             score_pop = math.log(self.priorPOP)
             for term in doc.tokens:
