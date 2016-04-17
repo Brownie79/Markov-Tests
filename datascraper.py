@@ -26,10 +26,10 @@ def log_post(postID):
     filename = "" # pop/sod#postid#likes
     pop = "FALSE"
     if(likes>=LIKE_THRESHOLD):
-        filename = group_id + "/pop#" + postID + '#' + str(likes)   
+        filename = group_id + "/pop#" + postID + '#' + str(likes) + ".txt"  
         pop = "TRUE"
     else:
-        filename = group_id + "/sod#" + postID + '#' + str(likes) 
+        filename = group_id + "/sod#" + postID + '#' + str(likes) + ".txt"
     
     newFile = open(filename, "w")
     message = graph.get_object(postID)['message']

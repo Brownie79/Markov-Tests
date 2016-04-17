@@ -1,0 +1,3 @@
+My laptop is on dual boot Ubuntu LTS 14.01 + Windows 10 and I want to migrate to Linux Mint 17 Cinnamon + Windows 10. Is there any fail-proof way to do this? Upon googling, it seems like there're some issues with GRUB2 for some people removing Ubuntu for other distro.
+
+*I've run Linux Mint off my USB thumb drive and everything works fine.

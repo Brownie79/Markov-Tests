@@ -25,9 +25,14 @@ class Document(object):
         if label: # specify from label/tokens, for testing.
             self.label = label
             self.tokens = tokens
+            self.postID = -1
+            self.likes = -1
         else: # specify from file.
             self.filename = filename
-            self.label = 'spam' if 'spmsg' in filename else 'ham'
+            parsedNames = filename.split("#")
+            self.label = parsedNames[0] #pop or sod
+            self.postID = parsedNames[1]
+            self.likes = parsedNames[2]
             self.tokenize()
 
     def tokenize(self):
@@ -38,15 +43,13 @@ class NaiveBayes(object):
     def __init__(self):
         #globals
         
-        self.vocab = set() #complete vocab
-        #self.vocab_spam = set() #don't need?
-        #self.vocab_ham = set() #don't need
+        self.vocab = set() #complete vocab 
+                
+        self.priorSod = 0
+        self.priorPop = 0
         
-        self.priorSpam = 0
-        self.priorHam = 0
-        
-        self.cond_prob_ham = {}
-        self.cond_prob_spam = {}
+        self.cond_prob_pop = {}
+        self.cond_prob_sod = {}
     
     
     def get_word_probability(self, label, term):
@@ -58,20 +61,12 @@ class NaiveBayes(object):
           term: the term
         Returns:
           A float representing the probability of this term for the specified class.
-
-        >>> docs = [Document(label='spam', tokens=['a', 'b']), Document(label='spam', tokens=['b', 'c']), Document(label='ham', tokens=['c', 'd'])]
-        >>> nb = NaiveBayes()
-        >>> nb.train(docs)
-        >>> nb.get_word_probability('spam', 'a')
-        0.25
-        >>> nb.get_word_probability('spam', 'b')
-        0.375
         """
-        ###DONE
-        if 'spam' in label:
-            return self.cond_prob_spam[term]
-        elif 'ham' in label:
-            return self.cond_prob_ham[term]
+
+        if 'sod' in label:
+            return self.cond_prob_sod[term]
+        elif 'pop' in label:
+            return self.cond_prob_pop[term]
         else:
             print("Just run the doctest Dev")
             
@@ -88,22 +83,15 @@ class NaiveBayes(object):
           A list of (float, string) tuples, where each float is the odds ratio
           defined above, and the string is the corresponding term.  This list
           should be sorted in descending order of odds ratio.
-
-        >>> docs = [Document(label='spam', tokens=['a', 'b']), Document(label='spam', tokens=['b', 'c']), Document(label='ham', tokens=['c', 'd'])]
-        >>> nb = NaiveBayes()
-        >>> nb.train(docs)
-        >>> nb.get_top_words('spam', 2)
-        [(2.25, 'b'), (1.5, 'a')]
         """
-        ###DONE
         score_list = []
-        if('spam' in label):
+        if('sod' in label):
             for term in self.vocab:
-                score = self.cond_prob_spam[term] / self.cond_prob_ham[term]
+                score = self.cond_prob_sod[term] / self.cond_prob_pop[term]
                 score_list.append((score,term))       
         else:
             for term in self.vocab:
-                score = self.cond_prob_ham[term] / self.cond_prob_spam[term]
+                score = self.cond_prob_pop[term] / self.cond_prob_sod[term]
                 score_list.append((score,term))
         score_list = sorted(score_list, key=lambda x:x[0],reverse=True)[:n]
         return score_list         
@@ -121,73 +109,66 @@ class NaiveBayes(object):
           Nothing.
         """
         ###DONE
-        
+        print
         #entire vocab in document set D
-        vocab_spam = set()
-        vocab_ham = set()
+        vocab_sod = set()
+        vocab_pop = set()
         
         #Calcuates prior probabilities
-        priorSPAM = 0 #how many docs are spam
-        priorHAM = 0 #how many docs are ham
+        priorSOD = 0 #how many docs are spam
+        priorPOP = 0 #how many docs are ham
         
         #Cacluates Tct
-        term_freq_spam = {} #{term:occur, term:occur}
-        term_freq_ham = {}
+        term_freq_sod = {} #{term:occur, term:occur}
+        term_freq_pop = {}
         
         #Tct'
-        Tct_Spam = 0 #Tct' = sum of (every term occurence in class c + 1)
-        Tct_Ham = 0
+        Tct_sod = 0 #Tct' = sum of (every term occurence in class c + 1)
+        Tct_pop = 0
         
         for doc in documents: 
-            if(doc.label == 'spam'):
-                priorSPAM += 1
+            if(doc.label == 'sod'):
+                priorSOD += 1
                 for token in doc.tokens:
-                    Tct_Spam += 1
-                    if token in term_freq_spam.keys():
-                        term_freq_spam[token] = term_freq_spam[token] + 1
+                    Tct_sod += 1
+                    if token in term_freq_sod.keys():
+                        term_freq_sod[token] = term_freq_sod[token] + 1
                     else:
-                        term_freq_spam[token] = 1
+                        term_freq_sod[token] = 1
                         vocab_spam.add(token) 
             else:
-                priorHAM += 1
+                priorPOP += 1
                 for token in doc.tokens:
-                    Tct_Ham += 1
-                    if token in term_freq_ham.keys():
-                        term_freq_ham[token] = term_freq_ham[token] + 1
+                    Tct_pop += 1
+                    if token in term_freq_pop.keys():
+                        term_freq_pop[token] = term_freq_pop[token] + 1
                     else:
-                        term_freq_ham[token] = 1
-                        vocab_ham.add(token)
+                        term_freq_pop[token] = 1
+                        vocab_pop.add(token)
         
         
         #endfor
         # | is for set join
-        self.vocab = vocab_spam | vocab_ham #gets rid of duplicate words (those in both 'ham' and 'spam')        
+        self.vocab = vocab_sod | vocab_pop #gets rid of duplicate words (those in both 'ham' and 'spam')        
         
         #Tct Primes
         #tct' = term freq of all terms in class c + 1*(total terms)
-        Tct_Spam = Tct_Spam + len(self.vocab) 
-        Tct_Ham = Tct_Ham + len(self.vocab) 
+        Tct_sod = Tct_sod + len(self.vocab) 
+        Tct_pop = Tct_pop + len(self.vocab) 
         
-        self.priorSPAM = priorSPAM / len(documents)
-        self.priorHAM = priorHAM / len(documents)
-        
-        """ #this doesn't work for all terms (prob of term in 
-        for term in vocab_ham:
-            self.cond_prob_ham[term] = (term_freq_ham[term] + 1) / Tct_Ham
-        for term in vocab_spam:
-            self.cond_prob_spam[term] = (term_freq_spam[term] + 1) / Tct_Spam 
-        """
+        self.priorSOD = priorSOD / len(documents)
+        self.priorPOP = priorPOP / len(documents)
         
         for term in self.vocab:
-            if term in term_freq_ham.keys():
-                self.cond_prob_ham[term] = (term_freq_ham[term] + 1) / Tct_Ham
+            if term in term_freq_pop.keys():
+                self.cond_prob_pop[term] = (term_freq_pop[term] + 1) / Tct_pop
             else:
-                self.cond_prob_ham[term] = 1 / Tct_Ham
+                self.cond_prob_pop[term] = 1 / Tct_pop
             
-            if term in term_freq_spam.keys():
-                self.cond_prob_spam[term] = (term_freq_spam[term] + 1) / Tct_Spam
+            if term in term_freq_sod.keys():
+                self.cond_prob_sod[term] = (term_freq_sod[term] + 1) / Tct_sod
             else:
-                self.cond_prob_spam[term] = 1 / Tct_Spam
+                self.cond_prob_sod[term] = 1 / Tct_sod
             
         
         pass
@@ -199,20 +180,21 @@ class NaiveBayes(object):
         Returns:
           A list of label strings corresponding to the predictions for each document.
         """
-        ###TODO
         predictions = []
         for doc in documents:
-            score_spam = math.log(self.priorSPAM)
-            score_ham = math.log(self.priorHAM)
+            print("PriorSod: " + str(self.priorSOD))
+            print("PriorPop: " + str(self.priorPOP))
+            score_sod = math.log(self.priorSOD)
+            score_pop = math.log(self.priorPOP)
             for term in doc.tokens:
-                if term in self.cond_prob_spam.keys():
-                    score_spam += math.log(self.cond_prob_spam[term])
-                if term in self.cond_prob_ham.keys():
-                    score_ham += math.log(self.cond_prob_ham[term])
-            if(score_ham >= score_spam): #defaults to ham if score = even                    
-                predictions.append('ham')
+                if term in self.cond_prob_sod.keys():
+                    score_sod += math.log(self.cond_prob_sod[term])
+                if term in self.cond_prob_pop.keys():
+                    score_pop += math.log(self.cond_prob_pop[term])
+            if(score_pop >= score_sod): #defaults to ham if score = even                    
+                predictions.append('pop')
             else:
-                predictions.append('spam')
+                predictions.append('sod')
                 
         return predictions        
         pass
@@ -246,14 +228,8 @@ def evaluate(predictions, documents):
     pass
 
 def main():
-    """ Do not modify. """
     if not os.path.exists('train'):  # download data
-       from urllib.request import urlretrieve
-       import tarfile
-       urlretrieve('http://cs.iit.edu/~culotta/cs429/lingspam.tgz', 'lingspam.tgz')
-       tar = tarfile.open('lingspam.tgz')
-       tar.extractall()
-       tar.close()
+       print("Please run datascraper to create dataset")
     
     train_docs = [Document(filename=f) for f in glob.glob("train/*.txt")]
     print('read', len(train_docs), 'training documents.')
@@ -263,9 +239,9 @@ def main():
     print('read', len(test_docs), 'testing documents.')
     predictions = nb.classify(test_docs)
     results = evaluate(predictions, test_docs)
-    print('accuracy=%.3f, %d false spam, %d missed spam' % (results[0], results[1], results[2]))
-    print('top ham terms: %s' % ' '.join('%.2f/%s' % (v,t) for v, t in nb.get_top_words('ham', 10)))
-    print('top spam terms: %s' % ' '.join('%.2f/%s' % (v,t) for v, t in nb.get_top_words('spam', 10)))
+    print('accuracy=%.3f, %d false sod, %d missed sod' % (results[0], results[1], results[2]))
+    print('top pop terms: %s' % ' '.join('%.2f/%s' % (v,t) for v, t in nb.get_top_words('pop', 10)))
+    print('top sod terms: %s' % ' '.join('%.2f/%s' % (v,t) for v, t in nb.get_top_words('sod', 10)))
    
 if __name__ == '__main__':
     main()
