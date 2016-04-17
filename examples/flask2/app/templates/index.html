@@ -68,15 +68,22 @@
 
         jQuery(function() {
 
-            jQuery('div').click(function() {
+            jQuery('#butt').click(function() {
                 jQuery('.one').hide();
                 jQuery('.two').show();
                 jsoncall(18);
+                jQuery(this).hide();
             });
 
             var a = {};
 
             jsoncall(0);
+
+            function butt() {
+                jQuery('.one').hide();
+                jQuery('.two').show();
+                jsoncall(18);
+            }
 
             function jsoncall(num) {
                 $.getJSON('static/css/'+num+'.json', function (data) {
@@ -141,9 +148,16 @@
         <ul>
             <li class="current" style="color: deepskyblue; list-style: none;"><h3>Odds of...</h3></li>
             <li style="list-style: none;">Being a Hot Post (lots of likes, really quick): <span class="one">34.317%</span><span class="two">72.407%</span></li>
-            <li style="list-style: none;">Being a Successful Post (lots of likes, over a long time): <span class="one">11.289%</span><span class="two">80.211%</span></li>
+            <li style="list-style: none; padding-top: 10px;">Being a Successful Post (lots of likes, over a long time): <span class="one">11.289%</span><span class="two">80.211%</span></li>
+            <li style="list-style: none; padding-top: 10px;">Causing Controversy: <span class="one">5.774%</span><span class="two">20.149%</span></li></li>
+            <li style="list-style: none; padding-top: 10px;">Attracting A &ldquo;Troll&rdquo;: <span class="one">13.892%</span><span class="two">64.011%</span></li></li>
+            <li style="list-style: none; padding-top: 10px;">Being A &ldquo;Troll&rdquo; Post: <span class="one">24.965%</span><span class="two">9.871%</span></li></li>
         </ul>
     </div>
 
 </div>
+
+    <div>
+        <input id="butt" type="button" value="Next" onclick="butt()"/>
+    </div>
 {% endblock %}
