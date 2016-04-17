@@ -37,7 +37,7 @@ def log_post(postID,counter):
     newFile.close()
     
     #json for flask frontend
-    jsonDict = {'popular':pop, 'postid':postID, 'likes':likes}
+    jsonDict = {'popular':pop, 'postid':postID, 'likes':likes, 'message':message}
     jsonFileName = 'json/' + str(counter) + '.json'
     with open(jsonFileName, 'w') as fp:
         json.dump(jsonDict, fp)
