@@ -28,7 +28,7 @@ def main():
             data = feed['data']
             for post in data:
                 post_info(post['id'])
-            feed = requests.get(posts['paging']['next']).json()    
+            feed = requests.get(feed['paging']['next']).json()    
     
         except KeyError: 
             #no more pages of posts
@@ -93,27 +93,6 @@ def request2(path, args=None, post_args=None, files=None, method=None):
     if result and isinstance(result, dict) and result.get("error"):
         raise GraphAPIError(result)
     return result
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
     main2()
