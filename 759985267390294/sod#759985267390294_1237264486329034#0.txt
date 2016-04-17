@@ -1,0 +1,1 @@
+I just published an article explaining how to set up GPG-signed commits with GitHub on OS X. Check it out. Feedback welcome. 

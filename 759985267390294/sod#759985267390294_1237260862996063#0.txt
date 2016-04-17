@@ -1,0 +1,3 @@
+Guys this may sound ignorant but i just genuinely have no idea:
+
+What is discrete math and how does it come into play in CS?

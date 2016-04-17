@@ -1,0 +1,3 @@
+Is the whois service down? Both the command line service and some popular whois domain lookups appear down at this time. isup.me/uwhois.com 
+$ whois isup.me
+whois: connect(): Operation timed out

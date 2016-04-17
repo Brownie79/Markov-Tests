@@ -1,1 +1,1 @@
-{"postid": "759985267390294_1236958009693015", "popular": "FALSE", "likes": 8}
+{"message": "Hey everyone! I'm trying to build a messenger bot written in nodejs. To do so, I have deployed it on AWS Elastic Beanstalk. However, the messenger api requires the server to be an https server. How can I go about doing this? (obtaining certificate, deploying properly, etc).", "likes": 1, "popular": "FALSE", "postid": "759985267390294_1236817296373753"}
