@@ -1,1 +1,0 @@
-I tried hacking on the Facebook Messenger Bot but the docs were pretty bad so I wrote up my own and shared the code. Make your own FB messenger bots in 15 minutes!

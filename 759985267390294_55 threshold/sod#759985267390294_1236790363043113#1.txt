@@ -1,1 +1,0 @@
-What is the third byte of a SHA-1 hash?

@@ -1,7 +1,0 @@
-Can anybody give me a good difference between angular and reactjs..
-
-Am stuck choosing which to learn and use reactjs or angular..
-
-BTW is angular2 ready for fully production app?.
-
-Thank you

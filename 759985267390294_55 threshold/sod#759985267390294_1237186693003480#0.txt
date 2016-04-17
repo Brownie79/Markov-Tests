@@ -1,1 +1,0 @@
-Suppose a hacker manages to get all the data of Quora (https://www.quora.com/) , would it be possible for him in some way to know what links a user clicked on. For example, could he find a way to see that x consulted y 's profile or question at t time ? I know this sounds like a silly question but it's important :)

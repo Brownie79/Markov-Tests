@@ -1,5 +1,0 @@
-Hi Guys, I just released my first Android app called Picturize! It takes an image of a textbook page, newspaper, magazine, screenshot or anything with text in it and summarizes it into bullet points, short paragraphs, or paragraphs. All this can be done in just a few seconds of taking the picture and then can be shared with other friends. I would love feedback from this great community of hackers!
-
-Please take a look: https://play.google.com/store/apps/details?id=com.mokshithvoodarla.Picturize
-
-Thanks so much!
