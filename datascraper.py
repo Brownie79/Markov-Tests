@@ -23,20 +23,17 @@ def log_post(postID):
     likes_dict = graph.get_connections(postID,connection_name="likes",summary='true')
     likes = likes_dict['summary']['total_count']
 
-    filename = ""
+    filename = "" # pop/sod#postid#likes
     pop = "FALSE"
     if(likes>=LIKE_THRESHOLD):
-        filename = group_id+"/pop_" + postID
+        filename = group_id + "/pop#" + postID + '#' + str(likes)   
         pop = "TRUE"
     else:
-        filename = group_id+"/sod_" + postID
+        filename = group_id + "/sod#" + postID + '#' + str(likes) 
     
     newFile = open(filename, "w")
-    newFile.write("ID:"+postID+'\n')
-    newFile.write("POP:"+pop+'\n')
-    newFile.write("LIKES:"+str(likes)+'\n')
     message = graph.get_object(postID)['message']
-    newFile.write("TEXT:"+message+'\n')
+    newFile.write(message)
     
     newFile.close()
 

@@ -1,4 +1,0 @@
-ID:759985267390294_1236817296373753
-POP:FALSE
-LIKES:1
-TEXT:Hey everyone! I'm trying to build a messenger bot written in nodejs. To do so, I have deployed it on AWS Elastic Beanstalk. However, the messenger api requires the server to be an https server. How can I go about doing this? (obtaining certificate, deploying properly, etc).
